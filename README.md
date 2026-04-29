@@ -10,7 +10,8 @@
 
 * **Smart Traffic Monitoring:** Automatically detects and categorizes `query`, `mutation`, and `subscription` operations with distinct icons.
 * **Deep Payload Support:** Handles standard POST JSON, batched arrays, APQ (Persisted Queries), GET-based queries, and `multipart` uploads.
-* **Error Highlighting:** * 🟠 **Orange:** HTTP transport failures (Status $\ge 400$).
+* **Error Highlighting:** 
+    * 🟠 **Orange:** HTTP transport failures (Status $\ge 400$).
     * 🔴 **Red:** Valid HTTP responses containing GraphQL `errors` arrays.
 * **Flexible Log Management:** Toggle between **Clear** or **Preserve** logs during full page reloads and SPA (History API) route changes.
 * **Developer-First UX:**
