@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GraphQL QA</title>
+    <link rel="stylesheet" href="panel.css" />
+  </head>
+  <body>
+    <header class="toolbar">
+      <label class="grow">
+        <span class="visually-hidden">Filter</span>
+        <input
+          type="search"
+          id="filterText"
+          placeholder="Filter by operation name or URL…"
+          autocomplete="off"
+        />
+      </label>
+      <label class="chk" title="Show only operations whose JSON body includes GraphQL errors">
+        <input type="checkbox" id="filterErrors" />
+        GraphQL errors only
+      </label>
+      <fieldset class="fieldset-nav-log" aria-label="Log retention on navigation">
+        <legend class="legend-nav-log">Logs on navigation</legend>
+        <p class="fieldset-nav-hint">
+          Applies to <strong>full reloads</strong> and <strong>SPA route changes</strong> (when the URL path changes). Query-only URL changes may not clear.
+        </p>
+        <div class="fieldset-nav-radios">
+        <label
+          class="radio-inline"
+          title="Remove all captured rows when the inspected tab fully reloads or the path changes in a client-side (SPA) router."
+        >
+          <input type="radio" name="navLogsBehavior" id="navClearRadio" value="clear" checked />
+          Clear logs on navigation
+        </label>
+        <label
+          class="radio-inline"
+          title="Keep the list across full reloads and in-app path changes."
+        >
+          <input type="radio" name="navLogsBehavior" id="navPreserveRadio" value="preserve" />
+          Preserve logs
+        </label>
+        </div>
+      </fieldset>
+      <label class="theme-label" title="Force light/dark independent of Chrome DevTools themes">
+        <span class="visually-hidden">Panel theme</span>
+        <select id="themeSelect">
+          <option value="system">Theme: OS</option>
+          <option value="light">Theme: Light</option>
+          <option value="dark">Theme: Dark</option>
+        </select>
+      </label>
+      <button type="button" id="clearBtn" class="btn-secondary">Clear list</button>
+    </header>
+    <div class="split">
+      <aside
+        id="listPane"
+        class="list-pane"
+        aria-label="GraphQL requests"
+        data-pct-default="42"
+        style="flex: 0 0 42%"
+      >
+        <div id="listScroll" class="list-scroll" tabindex="0" aria-label="GraphQL requests list">
+          <div id="listTopSpacer" aria-hidden="true" class="list-spacer"></div>
+          <div id="listInner" role="presentation"></div>
+          <div id="listBottomSpacer" aria-hidden="true" class="list-spacer"></div>
+        </div>
+      </aside>
+      <div
+        id="splitter"
+        class="splitter"
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize list and detail"
+        tabindex="0"
+      ></div>
+      <main class="detail-pane" aria-label="Request details">
+        <div id="detailEmpty" class="detail-empty">
+          Select a GraphQL operation from the list. Use ↑/↓ when focus is not in a filter field.
+        </div>
+        <div id="detail" class="detail hidden" hidden>
+          <div class="detail-actions">
+            <button type="button" id="copyReport" class="btn-primary" disabled>
+              Copy bug report
+            </button>
+            <button type="button" id="copyQuery" class="btn-secondary btn-sm" disabled>
+              Copy query
+            </button>
+            <button type="button" id="copyVariables" class="btn-secondary btn-sm" disabled>
+              Copy variables
+            </button>
+            <button type="button" id="copyResponse" class="btn-secondary btn-sm" disabled>
+              Copy response
+            </button>
+            <button
+              type="button"
+              id="exportResponse"
+              class="btn-secondary btn-sm"
+              disabled
+              title="Save full response body as a .json file"
+            >
+              Export response
+            </button>
+            <span id="copyStatus" class="copy-status" role="status"></span>
+          </div>
+          <section class="detail-section">
+            <h2>Summary</h2>
+            <dl id="summary" class="kv"></dl>
+          </section>
+          <section class="detail-section">
+            <h2>Query</h2>
+            <pre id="queryBody" class="code"></pre>
+          </section>
+          <section class="detail-section">
+            <h2>Variables</h2>
+            <pre id="variablesBody" class="code"></pre>
+          </section>
+          <section class="detail-section">
+            <h2>Response</h2>
+            <pre id="responseBody" class="code"></pre>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="panel.mjs"></script>
+  </body>
+</html>
