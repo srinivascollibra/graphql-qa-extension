@@ -1,47 +1,64 @@
-# GraphQL QA Panel (Chrome extension)
+# 🚀 GraphQL QA (Chrome Extension)
 
-Tester-focused **DevTools** panel that lists **GraphQL** requests from the **real** browser session (what the app sent), highlights **GraphQL errors** or **bad HTTP statuses**, filters, persists UI choices, resizes the panes, shows **operation type** (**query / mutation / subscription**) with icons, and copies **truncated bundles** plus **individual query / variables / response** snippets for bugs.
+### *A Chrome DevTools Extension for Precision GraphQL Testing*
 
-No host-based **origin** access: **`storage`**, **`webNavigation`**, and **`tabs`** (to read the inspected tab’s current URL pathname when syncing SPA route detection)—the GraphQL QA **panel** itself still uses DevTools **network** for traffic on the **inspected** page only.
+**GraphQL QA Panel** is a dedicated DevTools tab built for testers and developers. It captures real-time GraphQL traffic, providing deep visibility into operations, error states, and payload data—all within the native browser environment.
 
+---
 
-## Install (load unpacked)
+## ✨ Key Features
 
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. **Load unpacked** and choose this folder: `chrome-extension-graphql-tester`.
-4. Open DevTools (**F12** or **Cmd+Option+I**).
-5. Open the **GraphQL QA** tab (use the » overflow menu if tabs are crowded).
+* **Smart Traffic Monitoring:** Automatically detects and categorizes `query`, `mutation`, and `subscription` operations with distinct icons.
+* **Deep Payload Support:** Handles standard POST JSON, batched arrays, APQ (Persisted Queries), GET-based queries, and `multipart` uploads.
+* **Error Highlighting:** * 🟠 **Orange:** HTTP transport failures (Status $\ge 400$).
+    * 🔴 **Red:** Valid HTTP responses containing GraphQL `errors` arrays.
+* **Flexible Log Management:** Toggle between **Clear** or **Preserve** logs during full page reloads and SPA (History API) route changes.
+* **Developer-First UX:**
+    * **Resizable Panes:** Drag or use `Shift` + `Arrow Keys` to adjust the UI.
+    * **Virtualization:** High-performance list rendering supports up to 500 operations without lag.
+    * **Quick Copy:** One-click copying for Bug Reports (bundled metadata), Query, Variables, or Responses.
+    * **Disk Export:** Bypass clipboard limits by exporting massive JSON responses directly to files.
 
-## How to use
+---
 
-1. Keep **GraphQL QA** open while exercising the app.
-2. Rows appear for POST JSON **`query` / `operationName`**, **batched arrays**, **persisted/APQ-only** payloads, **`multipart`** bodies with GraphQL **`operations`** (common for uploads), **`application/graphql`**, and GET **`query=`**.
-3. Each row shows a small **icon** (left of the name) for **Query**, **Mutation**, **Subscription**, **Persisted** (hash-only / APQ), or **Unknown**. The **Summary** panel lists the same **Type** text.
-4. **Orange** tint: HTTP status **≥400** (transport / gateway failures even without GraphQL `errors`). **Red**: JSON body **`errors`** when present after load completes.
-5. Under **Logs on navigation**, choose **Clear logs on navigation** or **Preserve logs**. This applies to **both**:
-   - **Full document navigations** (reload, traditional site loads), via `chrome.devtools.network.onNavigated`, and  
-   - **SPA / client-side route changes**, when the **URL path** of the inspected tab changes (tracked via **`webNavigation.onHistoryStateUpdated`** in the extension service worker).
+## 🛠 Installation (Developer Mode)
 
-   Same choice is used for both: **Preserve** keeps the list when you reload or switch in-app routes; **Clear** empties it on either kind of navigation (path-only heuristic: changing only query parameters without changing the **path** may not trigger a SPA clear).
-6. Resize the divider between **list** and **detail** (drag or focus the splitter and use arrow keys **←/→** with **Shift** for larger steps).
-7. Arrow **↑** / **↓** move the selection when focus is **not** in the filter, **navigation radios**, or theme controls (**list** pane is focusable for keyboard use).
-8. **Summary** shows **request and response headers** when DevTools exposes them.
-9. **Copy bug report** bundles metadata (including **GraphQL operation kind**); smaller buttons copy **query**, **variables**, or **response** only. **Export response** writes the **full** response body to a `.json` file (no clipboard size limit)—useful for huge payloads.
-10. The left list uses **fixed-height virtualization**—long sessions stay responsive (up to 500 tracked operations; oldest dropped).
+1.  Download or clone this repository.
+2.  Open **Chrome** and navigate to `chrome://extensions`.
+3.  Enable **Developer mode** (top right toggle).
+4.  Click **Load unpacked** and select the `chrome-extension-graphql-tester` folder.
+5.  Open DevTools (**F12** or **Cmd+Option+I**) and select the **GraphQL QA** tab.
 
-## Developer notes
+---
 
-- Run **`npm test`** from this folder to execute **Vitest** against `parsers.mjs` (`parsers.test.mjs`).
-- Regenerate raster icons after editing `assets/graphql-logo.svg`: **`npm run icons`** (requires `sharp`).
-- **WebSockets / subscriptions** are **not** surfaced the same way as fetch/XHR in `chrome.devtools.network.onRequestFinished`; treat this as a known DevTools API gap unless you add a different integration.
+## 📖 Usage Guide
 
-## Privacy
+* **Navigation Control:** Use the "Logs on navigation" setting to decide if the panel should wipe data when you change routes.
+* **Keyboard Shortcuts:** Navigate the list using **↑** / **↓** keys when the list pane is focused.
+* **Summary View:** View full request/response headers and metadata for the selected operation.
+* **Filtering:** Use the built-in filter to isolate specific operation names or types.
 
-Everything runs **locally** in Chromium. Clipboard copy stays on your machine unless you paste elsewhere.
+---
 
-## Limits
+## 💻 Developer Notes
 
-- **SPA heuristic:** client-side clears run when **`onHistoryStateUpdated`** fires and the **`pathname`** part of the URL **changes**. Updates that change **only query strings or hash** might not clear until the path moves (intentionally reduces noisy clears).
-- Batched responses are split when the HTTP body parses as a **JSON array matching** the outbound batch length; otherwise the full payload is shown with an explanatory prefix.
-- **GraphQL trademark**: The extension toolbar icons use the **pink GraphQL logo** style in `assets/` (see **npm run icons**). [**GraphQL**](https://graphql.org) and related marks are trademarks of the **GraphQL Foundation**—swap `assets/graphql-logo.svg` if your org prefers a custom glyph.
+### Development Workflow
+* **Testing:** Run `npm test` to execute **Vitest** suites against the parsing logic.
+* **Assets:** If you modify `assets/graphql-logo.svg`, run `npm run icons` (requires `sharp`) to regenerate the extension icons.
+
+### Technical Limitations
+* **WebSockets:** Subscriptions are captured if initiated via standard network requests, but continuous WebSocket stream data is limited by the current `chrome.devtools.network` API.
+* **SPA Heuristic:** Automated clearing triggers on **pathname** changes. Updates to query strings or hashes only will not trigger a "Clear on Navigation" event to prevent UI flickering.
+
+---
+
+## 🔒 Privacy & Security
+
+* **Local Execution:** All data processing happens locally within your browser instance.
+* **Permissions:** Uses `storage` for UI persistence and `webNavigation`/`tabs` solely to detect route changes for the "Clear logs" feature.
+* **No Remote Access:** No data is sent to external servers.
+
+---
+
+## ⚖️ Legal
+*GraphQL and the GraphQL logo are trademarks of the GraphQL Foundation.*
