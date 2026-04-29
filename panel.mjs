@@ -427,12 +427,6 @@ function buildBugReportText(/** @type {GraphQLCapture} */ item) {
     lines.push(`Errors snippet: ${item.gqlErrorsSummary}`);
   }
   lines.push("");
-  lines.push("--- Request headers (truncated) ---");
-  lines.push(trunc(item.requestHeadersText || "", CLIP_MAX_LEN));
-  lines.push("");
-  lines.push("--- Response headers (truncated) ---");
-  lines.push(trunc(item.responseHeadersText || "", CLIP_MAX_LEN));
-  lines.push("");
   lines.push("--- Query (truncated) ---");
   lines.push(trunc(item.queryText || "", CLIP_MAX_LEN));
   lines.push("");
