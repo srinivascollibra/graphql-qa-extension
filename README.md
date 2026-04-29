@@ -39,18 +39,17 @@
 * **Filtering:** Use the built-in filter to isolate specific operation names or types.
 
 ---
+## 📺 Screenshots
 
-## 💻 Developer Notes
+* **Graphql QA Panel**:
+<img width="3456" height="904" alt="image" src="https://github.com/user-attachments/assets/cc41f69a-96f6-40df-9384-b5eebd2ed320" />
 
-### Development Workflow
-* **Testing:** Run `npm test` to execute **Vitest** suites against the parsing logic.
-* **Assets:** If you modify `assets/graphql-logo.svg`, run `npm run icons` (requires `sharp`) to regenerate the extension icons.
+* **Copy bug report:**  This copies all details to paste it in bug report.
+<img width="1371" height="901" alt="image" src="https://github.com/user-attachments/assets/4fc47d43-b669-476c-8de5-ad569ae2693e" />
 
-### Technical Limitations
-* **WebSockets:** Subscriptions are captured if initiated via standard network requests, but continuous WebSocket stream data is limited by the current `chrome.devtools.network` API.
-* **SPA Heuristic:** Automated clearing triggers on **pathname** changes. Updates to query strings or hashes only will not trigger a "Clear on Navigation" event to prevent UI flickering.
+* **Export Response:** Exports only the response in JSON Format
+<img width="1728" height="459" alt="image" src="https://github.com/user-attachments/assets/3d1a197f-3df4-453f-9576-89bd54f0d193" />
 
----
 
 ## 🔒 Privacy & Security
 
