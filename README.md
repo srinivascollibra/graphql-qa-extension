@@ -43,7 +43,7 @@
 ## 📺 Screenshots
 
 * **Graphql QA Panel**:
-<img width="3456" height="904" alt="image" src="https://github.com/user-attachments/assets/cc41f69a-96f6-40df-9384-b5eebd2ed320" />
+<img width="1728" height="424" alt="image" src="https://github.com/user-attachments/assets/5013cb45-4403-4184-85d6-398f0f0c3d01" />
 
 * **Copy bug report:**  This copies all details to paste it in bug report.
 <img width="1371" height="901" alt="image" src="https://github.com/user-attachments/assets/4fc47d43-b669-476c-8de5-ad569ae2693e" />
